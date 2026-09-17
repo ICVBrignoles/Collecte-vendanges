@@ -1043,6 +1043,7 @@
           "lieu_depot": "porte latérale droite du centre avec digicode : 2007A",
           "adresse": "313 boulevard Saint-Roch",
           "particularite": "à partir du 24/08 seconde navette vers la laboratoire à 8h30 du lundi au vendredi",
+          "particularite_masquee": true,
           "secteur": "Luberon",
           "jours_navette": [
             {
@@ -1947,6 +1948,7 @@
           lieu_depot: s.lieu_depot,
           adresse: s.adresse,
           particularite: s.particularite,
+          particularite_masquee: s.particularite_masquee,
           secteur: s.secteur,
           lat: s.lat,
           lng: s.lng
@@ -2024,7 +2026,7 @@
           <div class="col"><span class="label">Horaires de dépôt</span>${s.horaires || '—'}</div>
           <div class="col"><span class="label">Lieu de dépôt</span>${s.lieu_depot || '—'}</div>
         </div>
-        ${s.particularite ? `<div class="particularite"><span class="label">Particularité</span>${s.particularite}</div>` : ''}
+        ${s.particularite ? `<div class="particularite"${s.particularite_masquee ? ' style="display:none"' : ''}><span class="label">Particularité</span>${s.particularite}</div>` : ''}
       </div>`;
         el.appendChild(stop);
       });
@@ -2048,7 +2050,7 @@
       <div class="col"><span class="label">Horaires de dépôt</span>${s.horaires || '—'}</div>
       <div class="col"><span class="label">Lieu de dépôt</span>${s.lieu_depot || '—'}</div>
     </div>
-    ${s.particularite ? `<div class="particularite"><span class="label">Particularité</span>${s.particularite}</div>` : ''}
+    ${s.particularite ? `<div class="particularite"${s.particularite_masquee ? ' style="display:none"' : ''}><span class="label">Particularité</span>${s.particularite}</div>` : ''}
     <div class="day-badges">${badges}</div>`;
       return card;
     }
@@ -2198,7 +2200,7 @@
           '<div class="popup-site">' + p.site + '</div>' +
           '<div class="popup-meta"><span class="label">Navette</span> ' + jourInfo + '</div>' +
           (p.lieu_depot ? '<div class="popup-meta"><span class="label">Lieu de dépôt</span> ' + p.lieu_depot + '</div>' : '') +
-          (p.particularite ? '<div class="popup-particularite"><span class="label">Particularité</span> ' + p.particularite + '</div>' : '')
+          (p.particularite ? '<div class="popup-particularite"' + (p.particularite_masquee ? ' style="display:none"' : '') + '><span class="label">Particularité</span> ' + p.particularite + '</div>' : '')
         );
         mapMarkers.push(marker);
         bounds.push([p.lat, p.lng]);
