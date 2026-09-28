@@ -953,7 +953,7 @@
       <h1>Points de collecte<br>vendanges 2026</h1>
       <p class="sub">Collectes échantillons planifiées jusqu'au 23 octobre 2026 inclus.</p>
       <div class="vine-rule"></div>
-      <p class="notice-saturday">ATTENTION : samedi 26 septembre = dernier samedi ouvert pour le laboratoire</p>
+      <p class="notice-saturday">Le laboratoire est ouvert du lundi au vendredi.</p>
     </header>
 
     <div class="search-wrap" id="searchWrap">
@@ -1009,7 +1009,7 @@
     /* BUILD_VERSION : à incrémenter (date/heure) à chaque régénération du
        fichier — c'est ce que compare le script anti-cache en bas de page
        pour détecter qu'une version plus récente est en ligne. */
-    const BUILD_VERSION = "2026-09-24T10";
+    const BUILD_VERSION = "2026-09-28T10";
     const DATA = {
       "sites": [
         {
@@ -1027,10 +1027,9 @@
                 "mardi",
                 "mercredi",
                 "jeudi",
-                "vendredi",
-                "samedi"
+                "vendredi"
               ],
-              "jours_label": "lundi au samedi",
+              "jours_label": "lundi au vendredi",
               "navette": "24h/24"
             }
           ],
@@ -1057,13 +1056,6 @@
               ],
               "jours_label": "lundi au vendredi",
               "navette": "8h30 / 11h00"
-            },
-            {
-              "jours": [
-                "samedi"
-              ],
-              "jours_label": "samedi",
-              "navette": "10h00"
             }
           ],
           "lat": 43.7224634,
@@ -1240,10 +1232,9 @@
                 "mardi",
                 "mercredi",
                 "jeudi",
-                "vendredi",
-                "samedi"
+                "vendredi"
               ],
-              "jours_label": "lundi au samedi",
+              "jours_label": "lundi au vendredi",
               "navette": "9h00"
             }
           ],
@@ -1269,13 +1260,6 @@
               ],
               "jours_label": "lundi au vendredi",
               "navette": "8h30"
-            },
-            {
-              "jours": [
-                "samedi"
-              ],
-              "jours_label": "samedi",
-              "navette": "10h30"
             }
           ],
           "lat": 43.4629896,
@@ -1592,10 +1576,9 @@
             {
               "jours": [
                 "lundi",
-                "mercredi",
-                "samedi"
+                "mercredi"
               ],
-              "jours_label": "lundi / mercredi / samedi",
+              "jours_label": "lundi / mercredi",
               "navette": "9h00"
             }
           ],
@@ -1681,10 +1664,9 @@
           "jours_navette": [
             {
               "jours": [
-                "mercredi",
-                "samedi"
+                "mercredi"
               ],
-              "jours_label": "mercredi / samedi",
+              "jours_label": "mercredi",
               "navette": "9h30"
             }
           ],
@@ -1919,7 +1901,7 @@
         }
       ]
     };
-    const DAYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    const DAYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
     let current = 'carte'; // vue affichée au chargement : 'carte' | 'tous' | 'lundi'...
     let mapInstance = null;
     let mapMarkers = [];
