@@ -935,10 +935,78 @@
         width: 42%;
       }
     }
+    /* ---------- FIN DES VENDANGES (écran affiché automatiquement après DATE_FIN_VENDANGES) ---------- */
+    .fin-vendanges {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(43, 33, 24, 0.55);
+    }
+
+    .fin-vendanges.visible {
+      display: flex;
+    }
+
+    .fin-vendanges-box {
+      max-width: 520px;
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .fin-vendanges-box h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      color: var(--wine);
+    }
+
+    .fin-vendanges-box p {
+      margin: 0 0 18px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+
+    .fin-vendanges-btn {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: var(--wine);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .fin-vendanges-btn:hover {
+      background: var(--wine-dark);
+    }
+
+    .fin-vendanges-note {
+      margin-top: 14px !important;
+      margin-bottom: 0 !important;
+      font-size: 12.5px !important;
+    }
   </style>
 </head>
 
 <body>
+  <!-- Écran "collectes vendanges terminées" : masqué jusqu'à DATE_FIN_VENDANGES (voir script en bas de page) -->
+  <div class="fin-vendanges" id="finVendanges" role="dialog" aria-modal="true" aria-labelledby="finVendangesTitre">
+    <div class="fin-vendanges-box">
+      <h2 id="finVendangesTitre">Collectes vendanges 2026 terminées</h2>
+      <p>Les tournées de collecte des vendanges sont terminées.<br>Retrouvez les points de collecte en vigueur sur la nouvelle carte.</p>
+      <a class="fin-vendanges-btn" id="finVendangesLien" href="https://icvbrignoles.github.io/Points-collecte/">Voir la carte des points de collecte</a>
+      <p class="fin-vendanges-note" id="finVendangesNote"></p>
+    </div>
+  </div>
   <div class="wrap">
     <header class="top">
       <div class="header-logos">
@@ -1009,7 +1077,7 @@
     /* BUILD_VERSION : à incrémenter (date/heure) à chaque régénération du
        fichier — c'est ce que compare le script anti-cache en bas de page
        pour détecter qu'une version plus récente est en ligne. */
-    const BUILD_VERSION = "2026-09-28T10";
+    const BUILD_VERSION = "2026-10-16T20";
     const DATA = {
       "sites": [
         {
@@ -2350,6 +2418,45 @@
     });
     window.addEventListener('focus', checkForUpdate);
     setInterval(checkForUpdate, 5 * 60 * 1000);
+  </script>
+  <script>
+    /* ================================================================
+       FIN DES VENDANGES — bascule automatique vers la nouvelle carte
+       ================================================================
+       Après DATE_FIN_VENDANGES, la page affiche l'écran "Collectes
+       vendanges 2026 terminées" et redirige vers NOUVELLE_CARTE après
+       DELAI_REDIRECTION secondes. Avant cette date, rien ne change.
+       - Pour avancer ou reculer la bascule : modifier DATE_FIN_VENDANGES
+         (format AAAA-MM-JJTHH:MM:SS+02:00, heure de Paris en été).
+       - Pour réactiver la carte l'an prochain : mettre une date future
+         (ex : fin des vendanges 2027) et changer BUILD_VERSION.
+       - Pour ne pas rediriger automatiquement : DELAI_REDIRECTION = 0.
+       ================================================================ */
+    const DATE_FIN_VENDANGES = new Date('2026-10-23T20:00:00+02:00');
+    const NOUVELLE_CARTE = 'https://icvbrignoles.github.io/Points-collecte/';
+    const DELAI_REDIRECTION = 10; // secondes
+
+    let finVendangesAffichee = false;
+    function verifierFinVendanges() {
+      if (finVendangesAffichee || new Date() < DATE_FIN_VENDANGES) return;
+      finVendangesAffichee = true;
+      document.getElementById('finVendanges').classList.add('visible');
+      document.getElementById('finVendangesLien').href = NOUVELLE_CARTE;
+      if (DELAI_REDIRECTION > 0) {
+        let reste = DELAI_REDIRECTION;
+        const note = document.getElementById('finVendangesNote');
+        const tick = () => {
+          note.textContent = 'Redirection automatique dans ' + reste + ' s…';
+          if (reste <= 0) { window.location.href = NOUVELLE_CARTE; return; }
+          reste--;
+          setTimeout(tick, 1000);
+        };
+        tick();
+      }
+    }
+    verifierFinVendanges();
+    // Si la page reste ouverte au moment de la bascule : vérification chaque minute
+    setInterval(verifierFinVendanges, 60 * 1000);
   </script>
 </body>
 
